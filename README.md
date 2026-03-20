@@ -91,4 +91,3 @@ legislative-analyzer/
 | Token Compression technique | TF-IDF scoring, Jaccard dedup, greedy packing |
 | Information Density score | Displayed in UI: unique concepts retained per token consumed |
 | Energy efficiency | 90–98% fewer tokens sent to LLM per request |
-

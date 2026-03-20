@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Citizen's Dashboard — AI Legislative Analyzer</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- PDF.js legacy build (no module needed) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏛️ Citizen's Dashboard</h1>
+      <p class="subtitle">AI-powered plain-English summaries of Indian laws & parliamentary bills</p>
+    </header>
+
+    <div class="card input-card">
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon">📄</div>
+        <p>Drag & drop a PDF, or <label for="pdfInput" class="upload-link">click here to upload</label></p>
+        <p class="upload-hint">Supports large documents (100k+ tokens)</p>
+        <input type="file" id="pdfInput" accept=".pdf" />
+      </div>
+
+      <div class="divider"><span>or paste text</span></div>
+      <textarea id="legalText" placeholder="Paste bill / law / policy text here..."></textarea>
+      <div id="pdfStatus" class="status-bar hidden"></div>
+
+      <div class="api-row">
+        <div class="api-hint">
+          🔑 Free Groq API key →
+          <a href="https://console.groq.com" target="_blank">console.groq.com</a>
+          (no credit card needed)
+        </div>
+        <input type="password" id="apiKey" placeholder="gsk_..." />
+      </div>
+
+      <button id="analyzeBtn">⚡ Analyze Document</button>
+    </div>
+
+    <div id="loader" class="loader hidden">
+      <div class="spinner"></div>
+      <span id="loaderMsg">Processing...</span>
+    </div>
+    <div id="error" class="error hidden"></div>
+
+    <div id="statsBar" class="stats-bar hidden">
+      <div class="stat">
+        <span class="stat-label">Original Tokens</span>
+        <span class="stat-value" id="statOriginal">—</span>
+      </div>
+      <div class="stat-arrow">→</div>
+      <div class="stat">
+        <span class="stat-label">Compressed Tokens</span>
+        <span class="stat-value green" id="statCompressed">—</span>
+      </div>
+      <div class="stat-arrow">→</div>
+      <div class="stat">
+        <span class="stat-label">Compression Ratio</span>
+        <span class="stat-value green" id="statRatio">—</span>
+      </div>
+      <div class="stat-arrow">→</div>
+      <div class="stat">
+        <span class="stat-label">Information Density</span>
+        <span class="stat-value highlight" id="statDensity">—</span>
+      </div>
+    </div>
+
+    <div id="output" class="output hidden"></div>
+  </div>
+
+  <script>
+    // Debug: check PDF.js loaded
+    window.addEventListener('load', function() {
+      if (typeof pdfjsLib === 'undefined') {
+        document.getElementById('error').textContent = 'ERROR: PDF.js failed to load. Check your internet connection.';
+        document.getElementById('error').classList.remove('hidden');
+      }
+    });
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
